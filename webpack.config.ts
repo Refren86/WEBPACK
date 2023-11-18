@@ -1,6 +1,7 @@
 import path from "path";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import type { Configuration as DevSeverConfiguration } from "webpack-dev-server";
 
 type Mode = "development" | "production";
@@ -12,13 +13,14 @@ interface EnvVariables {
 
 export default (env: EnvVariables) => {
   const isDev = env.mode === "development";
+  const isProd = env.mode === "production";
 
   const config: webpack.Configuration = {
     mode: env.mode ?? "development", // "development" or "production"
     entry: path.resolve(__dirname, "src", "index.tsx"),
     output: {
       path: path.resolve(__dirname, "build"),
-      filename: "[name].[contenthash].js",
+      filename: "[name].[contenthash:8].js",
       clean: true, // will remove the build folder before creating a new one
     },
     module: {
@@ -30,7 +32,7 @@ export default (env: EnvVariables) => {
           test: /\.s[ac]ss$/i,
           use: [
             // Creates `style` nodes from JS strings
-            "style-loader",
+            isDev ? "style-loader" : MiniCssExtractPlugin.loader,
             // Translates CSS into CommonJS
             "css-loader",
             // Compiles Sass to CSS
@@ -52,6 +54,11 @@ export default (env: EnvVariables) => {
         template: path.resolve(__dirname, "public", "index.html"), // webpack will add the js files to this html file
       }),
       isDev && new webpack.ProgressPlugin(), // will show % of build progress (remove to speed up build)
+      isProd &&
+        new MiniCssExtractPlugin({
+          filename: "css/[name].[contenthash:8].css",
+          chunkFilename: "css/[id].[contenthash:8].css",
+        }), // will create a separate css chunk file
     ].filter(Boolean),
     devtool: isDev && "inline-source-map", // will show the source code in the browser when debugging
     devServer: isDev
