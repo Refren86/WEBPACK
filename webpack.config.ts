@@ -22,10 +22,14 @@ export default (env: EnvVariables) => {
       clean: true, // will remove the build folder before creating a new one
     },
     module: {
-      // loaders are executed in chain from right to left
+      // loaders are executed in chain (last loader is executed first)
       rules: [
         // ts-loader knows how to work with jsx/tsx
         // !!! If I do not use typescript(ts-loader), I must use babel-loader instead with jsx !!!
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
         {
           test: /\.tsx?$/, // ts and tsx files
           use: "ts-loader",
@@ -43,10 +47,12 @@ export default (env: EnvVariables) => {
       isDev && new webpack.ProgressPlugin(), // will show % of build progress (remove to speed up build)
     ].filter(Boolean),
     devtool: isDev && "inline-source-map", // will show the source code in the browser when debugging
-    devServer: isDev ? {
-      port: env.port ?? 3000,
-      open: true,
-    } : undefined,
+    devServer: isDev
+      ? {
+          port: env.port ?? 3000,
+          open: true,
+        }
+      : undefined,
   };
 
   return config;
