@@ -15,7 +15,7 @@ export default (env: EnvVariables) => {
 
   const config: webpack.Configuration = {
     mode: env.mode ?? "development", // "development" or "production"
-    entry: path.resolve(__dirname, "src", "index.ts"),
+    entry: path.resolve(__dirname, "src", "index.tsx"),
     output: {
       path: path.resolve(__dirname, "build"),
       filename: "[name].[contenthash].js",
@@ -24,6 +24,8 @@ export default (env: EnvVariables) => {
     module: {
       // loaders are executed in chain from right to left
       rules: [
+        // ts-loader knows how to work with jsx/tsx
+        // !!! If I do not use typescript(ts-loader), I must use babel-loader instead with jsx !!!
         {
           test: /\.tsx?$/, // ts and tsx files
           use: "ts-loader",
@@ -39,12 +41,12 @@ export default (env: EnvVariables) => {
         template: path.resolve(__dirname, "public", "index.html"), // webpack will add the js files to this html file
       }),
       isDev && new webpack.ProgressPlugin(), // will show % of build progress (remove to speed up build)
-    ],
+    ].filter(Boolean),
     devtool: isDev && "inline-source-map", // will show the source code in the browser when debugging
-    devServer: isDev && {
+    devServer: isDev ? {
       port: env.port ?? 3000,
       open: true,
-    },
+    } : undefined,
   };
 
   return config;
