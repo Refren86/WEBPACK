@@ -1,11 +1,19 @@
-const path = require("path");
+import path from "path";
+import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import type { Configuration as DevSeverConfiguration } from "webpack-dev-server";
 
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+type Mode = "development" | "production";
 
-module.exports = (env) => {
-  console.log("env", env);
-  return {
+interface EnvVariables {
+  mode: Mode;
+  port: number;
+}
+
+export default (env: EnvVariables) => {
+  const isDev = env.mode === "development";
+
+  const config: webpack.Configuration = {
     mode: env.mode ?? "development", // "development" or "production"
     entry: path.resolve(__dirname, "src", "index.ts"),
     output: {
@@ -30,7 +38,14 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "public", "index.html"), // webpack will add the js files to this html file
       }),
-      new webpack.ProgressPlugin(), // will show % of build progress (remove to speed up build)
+      isDev && new webpack.ProgressPlugin(), // will show % of build progress (remove to speed up build)
     ],
+    devtool: isDev && "inline-source-map", // will show the source code in the browser when debugging
+    devServer: isDev && {
+      port: env.port ?? 3000,
+      open: true,
+    },
   };
+
+  return config;
 };
