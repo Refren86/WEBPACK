@@ -27,8 +27,15 @@ export default (env: EnvVariables) => {
         // ts-loader knows how to work with jsx/tsx
         // !!! If I do not use typescript(ts-loader), I must use babel-loader instead with jsx !!!
         {
-          test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
+          test: /\.s[ac]ss$/i,
+          use: [
+            // Creates `style` nodes from JS strings
+            "style-loader",
+            // Translates CSS into CommonJS
+            "css-loader",
+            // Compiles Sass to CSS
+            "sass-loader",
+          ],
         },
         {
           test: /\.tsx?$/, // ts and tsx files
