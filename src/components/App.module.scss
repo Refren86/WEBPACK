@@ -1,6 +1,17 @@
 $theme: #008080;
 $white: #ffffff;
 
+$base-font: 'Nunito', sans-serif;
+
+body {
+  font-family: $base-font;
+}
+
+.links {
+  display: flex;
+  column-gap: 5px;
+}
+
 .container {
   display: flex;
   column-gap: 10px;

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 
-import styles from "./App.module.scss";
+import PinterestSvg from "@/assets/pinterest.svg";
+import PinterestPng from "@/assets/pinterest.png";
+import ImageTest from "@/assets/image.jpg";
+import styles from "@/components/App.module.scss";
 
 export const App = () => {
   const [count, setCount] = useState(0);
@@ -11,9 +14,20 @@ export const App = () => {
 
   return (
     <div>
-      <Link to='/'>Home</Link>
-      <Link to='/about'>About</Link>
-      <Link to='/shop'>Shop</Link>
+      <div>
+        <PinterestSvg width={50} height={50} color="red" />
+      </div>
+
+      <div>
+        <img src={PinterestPng} alt="pinterest png" />
+        <img src={ImageTest} alt="test jpg" width={50} height={50} />
+      </div>
+
+      <div className={styles.links}>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+        <Link to="/shop">Shop</Link>
+      </div>
 
       <p>{count}</p>
 

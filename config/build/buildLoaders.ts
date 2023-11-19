@@ -27,6 +27,34 @@ export function buildLoaders({ mode }: BuildOptions): ModuleOptions["rules"] {
     ],
   };
 
+  const assetsLoader = {
+    test: /\.(png|jpg|jpeg|gif)$/i,
+    type: "asset/resource",
+  };
+
+  const svgrLoader = {
+    test: /\.svg$/i,
+    issuer: /\.[jt]sx?$/,
+    use: [
+      {
+        loader: "@svgr/webpack",
+        options: {
+          icon: true,
+          svgoConfig: {
+            plugins: [
+              {
+                name: "convertColors",
+                params: {
+                  currentColor: true,
+                },
+              },
+            ],
+          },
+        },
+      },
+    ],
+  };
+
   // ts-loader knows how to work with jsx/tsx
   // !!! If I do not use typescript(ts-loader), I must use babel-loader instead with jsx !!!
   const tsLoader = {
@@ -35,5 +63,5 @@ export function buildLoaders({ mode }: BuildOptions): ModuleOptions["rules"] {
     exclude: /node_modules/,
   };
 
-  return [scssLoader, tsLoader];
+  return [assetsLoader, scssLoader, tsLoader, svgrLoader];
 }
