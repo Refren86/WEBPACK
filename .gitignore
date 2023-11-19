@@ -1,4 +1,7 @@
 node_modules
 dist
+.vscode
+.idea
+.cache
 .env
 /build

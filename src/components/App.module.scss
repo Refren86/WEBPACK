@@ -1,7 +1,12 @@
 $theme: #008080;
 $white: #ffffff;
 
-button {
+.container {
+  display: flex;
+  column-gap: 10px;
+}
+
+.btn {
   background-color: $theme;
   color: $white;
 }

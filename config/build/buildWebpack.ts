@@ -11,7 +11,7 @@ export function buildWebpack(options: BuildOptions): webpack.Configuration {
   const isDev = mode === "development";
 
   return {
-    mode: mode ?? "development", // "development" or "production"
+    mode,
     entry: paths.entry,
     output: {
       path: paths.output,
