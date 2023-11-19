@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Outlet, Link } from "react-router-dom";
 
 import styles from "./App.module.scss";
 
@@ -10,7 +11,11 @@ export const App = () => {
 
   return (
     <div>
-      <h1>App!</h1>
+      <Link to='/'>Home</Link>
+      <Link to='/about'>About</Link>
+      <Link to='/shop'>Shop</Link>
+
+      <p>{count}</p>
 
       <div className={styles.container}>
         <button onClick={dec} className={styles.btn}>
@@ -20,8 +25,8 @@ export const App = () => {
           Inc
         </button>
       </div>
-      
-      <p>{count}</p>
+
+      <Outlet />
     </div>
   );
 };

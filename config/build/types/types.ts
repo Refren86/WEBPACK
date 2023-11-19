@@ -10,4 +10,5 @@ export interface BuildOptions {
   mode: BuildMode;
   port: number;
   paths: BuildPaths;
+  analyzer?: boolean;
 }
