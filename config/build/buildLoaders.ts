@@ -58,8 +58,15 @@ export function buildLoaders({ mode }: BuildOptions): ModuleOptions["rules"] {
   // ts-loader knows how to work with jsx/tsx
   // !!! If I do not use typescript(ts-loader), I must use babel-loader instead with jsx !!!
   const tsLoader = {
-    test: /\.tsx?$/, // ts and tsx files
-    use: "ts-loader",
+    test: /\.tsx?$/,
+    use: [
+      {
+        loader: "ts-loader",
+        options: {
+          transpileOnly: true, // will not check types, only transpile ts into js (will speed up bundling!)
+        },
+      },
+    ],
     exclude: /node_modules/,
   };
 
