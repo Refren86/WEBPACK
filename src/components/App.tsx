@@ -17,19 +17,21 @@ export const App = () => {
   const inc = () => setCount(count + 1);
   const dec = () => setCount(count - 1);
 
-  if (__PLATFORM__ === "desktop") {
-    return <div>IS DESKTOP</div>;
-  }
+  // if (__PLATFORM__ === "desktop") {
+  //   return <div>IS DESKTOP</div>;
+  // }
 
-  if (__PLATFORM__ === "mobile") {
-    return <div>IS MOBILE</div>;
-  }
+  // if (__PLATFORM__ === "mobile") {
+  //   return <div>IS MOBILE</div>;
+  // }
 
-  if (__ENV__ === "development") {
-    // add devTools()
-  }
+  // if (__ENV__ === "development") {
+  //   // add devTools()
+  // }
 
   // TODO('123')
+
+  
 
   return (
     <div>
