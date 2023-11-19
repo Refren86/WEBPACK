@@ -1,6 +1,8 @@
-import webpack, { Configuration, DefinePlugin } from "webpack";
+import path from "path";
+import CopyPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import webpack, { Configuration, DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
@@ -19,6 +21,7 @@ export function buildPlugins({
   const plugins: Configuration["plugins"] = [
     new HtmlWebpackPlugin({
       template: paths.html, // webpack will add the js files to this html file
+      favicon: path.resolve(paths.public, "favicon.ico"),
     }),
     // global variables: https://webpack.js.org/plugins/define-plugin/
     new DefinePlugin({
@@ -38,7 +41,18 @@ export function buildPlugins({
     plugins.push(
       new MiniCssExtractPlugin({
         filename: "css/[name].[contenthash:8].css",
-        chunkFilename: "css/[id].[contenthash:8].css",
+        chunkFilename: "css/[name].[contenthash:8].css",
+      })
+    );
+    plugins.push(
+      new CopyPlugin({
+        patterns: [
+          // will move the locales folder to the build folder
+          {
+            from: path.resolve(paths.public, "locales"),
+            to: path.resolve(paths.output, "locales"),
+          },
+        ],
       })
     );
   }

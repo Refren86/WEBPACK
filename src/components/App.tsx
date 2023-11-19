@@ -31,8 +31,6 @@ export const App = () => {
 
   // TODO('123')
 
-  
-
   return (
     <div>
       <h1>Platform: {__PLATFORM__}</h1>
